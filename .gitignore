@@ -1,0 +1,6 @@
+#Atmel studio project files
+*.cproj
+*.atsln
+
+#Debug directory
+Debug/
