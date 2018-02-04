@@ -1,6 +1,8 @@
 #Atmel studio project files
 *.cproj
 *.atsln
+*.atsuo
+*.componentinfo.xml
 
 #Debug directory
 Debug/
