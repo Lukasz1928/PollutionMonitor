@@ -1,1 +1,1 @@
-Pollution monitor using SDS011 sensor.
+Pollution monitor using SDS018 sensor.

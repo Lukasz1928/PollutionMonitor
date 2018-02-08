@@ -1,13 +1,12 @@
 #include <avr/io.h>
 #include <avr/delay.h>
+#include "display.h"
 
 int main(void) {
-	DDRC = 0xFF;
-    while (1) {
-		PORTC |= (1 << PC5);
-		_delay_ms(1000);
-		PORTC &= ~(1 << PC5);
-		_delay_ms(1000);
-    }
+	display_init();
+	display_write_multiline("line1 abc", "line2 xyz");
+	while(1) {
+		
+	}
 }
 
