@@ -1,6 +1,31 @@
 #ifndef WIRELESS_H
 #define WIRELESS_H
 
+#define WIRELESS_CE_DDR DDRD
+#define WIRELESS_CE_PORT PORTD
+#define WIRELESS_CE PD1
 
+#define WIRELESS_CSN_DDR DDRD
+#define WIRELESS_CSN_PORT PORTD
+#define WIRELESS_CSN PD0
 
-#define
+#define WIRELESS_CSK_DDR DDRB
+#define WIRELESS_CSK_PORT PORTB
+#define WIRELESS_CSK PB5
+
+#define WIRELESS_MOSI_DDR DDRB
+#define WIRELESS_MOSI_PORT PORTB
+#define WIRELESS_MOSI PB3
+
+#define WIRELESS_MISO_DDR DDRB
+#define WIRELESS_MISO_PORT PORTB
+#define WIRELESS_MISO PB4
+
+#define WIRELESS_IRQ_DDR DDRD
+#define WIRELESS_IRQ_PORT PORTD
+#define WIRELESS_IRQ PD2
+
+void wireless_master_init(void);
+void wireless_slave_init(void);
+
+#endif
