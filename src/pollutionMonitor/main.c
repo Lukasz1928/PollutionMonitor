@@ -9,7 +9,6 @@ int main(void) {
 	display_init();
 	SPI_master_init();
 	wireless_init();
-	display_write_multiline(a, "");
 	while(1) {
 		
 	}
