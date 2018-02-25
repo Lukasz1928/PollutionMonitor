@@ -38,6 +38,8 @@ void display_write_text(char* text) {
 }
 
 void display_write_multiline(char* text1, char* text2) {
+	display_clear();
+	display_set_cursor(0, 0);
 	display_write_text(text1);
 	display_set_cursor(0, 1);
 	display_write_text(text2);
