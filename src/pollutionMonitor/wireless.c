@@ -49,14 +49,30 @@ void wireless_init(void) {
 	data[0] = 5;
 	wireless_write(RX_PW_P0, data, 1);
 	
-	//enable CRC, power up, set as transmitter
-	data[0] = 0x1E; //00011110
-	wireless_write(CONFIG, data, 1);
-	
 	_delay_ms(100);
 }
 
-uint8_t wireless_read(uint8_t reg) {
+void wireless_set_tx() {
+	uint8_t data[1];
+	data[0] = 0x1E;
+	wireless_write(CONFIG, data, 1);
+	SET(WIRELESS_CE_PORT, WIRELESS_CE);
+	_delay_us(20);
+	UNSET(WIRELESS_CE_PORT, WIRELESS_CE);
+}
+
+void wireless_set_rx() {
+	uint8_t data[1];
+	data[0] = 0x1F;
+	wireless_write(CONFIG, data, 1);
+	SET(WIRELESS_CE_PORT, WIRELESS_CE);
+}
+
+void wireless_set_mode(uint8_t mode) {
+	
+}
+
+uint8_t wireless_read_reg(uint8_t reg) {
 	_delay_us(10);
 	//CSN to 0- nRF listens for command
 	UNSET(WIRELESS_CSN_PORT, WIRELESS_CSN);
@@ -72,7 +88,7 @@ uint8_t wireless_read(uint8_t reg) {
 	return reg;
 }
 
-void wireless_write(uint8_t reg, uint8_t* data, uint8_t len) {
+void wireless_write_reg(uint8_t reg, uint8_t* data, uint8_t len) {
 	_delay_us(10);
 	//CSN to 0- nRF listens for command
 	UNSET(WIRELESS_CSN_PORT, WIRELESS_CSN);
@@ -86,4 +102,42 @@ void wireless_write(uint8_t reg, uint8_t* data, uint8_t len) {
 	}
 	//stop listening
 	SET(WIRELESS_CSN_PORT, WIRELESS_CSN);
+}
+
+void wireless_write_com(uint8_t command) {
+	_delay_us(10);
+	//CSN to 0- nRF listens for command
+	UNSET(WIRELESS_CSN_PORT, WIRELESS_CSN);
+	_delay_us(10);
+	//write command and register number
+	SPI_write(command);
+	_delay_us(10);
+	//stop listening
+	SET(WIRELESS_CSN_PORT, WIRELESS_CSN);
+}
+
+void wireless_send(uint8_t* data) {
+	wireless_set_mode(WIRELESS_TX);
+	wireless_write_com(FLUSH_TX); //flush buffer
+	wireless_write_com(W_TX_PAYLOAD);
+	for(uint8_t i = 0; i < 5; i++) {
+		SPI_write(data[i]);
+	}
+}
+
+void wireless_recv(uint8_t* data) {
+	wireless_set_mode(WIRELESS_RX);
+	uint8_t received;
+	uint8_t data[5];
+	while(1) {
+		received = wireless_read_reg(STATUS) & (1 << 7);
+		if(received) {
+			for(uint8_t i = 0; i < 5; i++) {
+				data[i] = SPI_write(NOP);
+			}
+			display_write_multiline()
+		}
+	}
+	
+	
 }

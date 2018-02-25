@@ -3,6 +3,6 @@
 
 #define SET(REG, BIT) (REG |= (1 << BIT))
 #define UNSET(REG, BIT) (REG &= ~(1 << BIT))
-
+#define ISSET(REG, BIT) (REG & (1 << BIT))
 
 #endif

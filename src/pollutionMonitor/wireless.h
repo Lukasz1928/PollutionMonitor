@@ -69,12 +69,19 @@
 #define W_TX_PAYLOAD_NOACK   0b10110000
 #define NOP                  0b11111111
 
+#define WIRELESS_TX          0
+#define WIRELESS_RX          1
+#define WIRELESS_STANDBY     2
 
 void wireless_init(void);
+void wireless_set_mode(uint8_t);
 
-//read register
-uint8_t wireless_read(uint8_t);
-//write register
-void wireless_write(uint8_t, uint8_t*, uint8_t);
+uint8_t wireless_read_reg(uint8_t);
+void wireless_write_reg(uint8_t, uint8_t*, uint8_t);
+void wireless_write_com(uint8_t);
+
+void wireless_send(uint8_t*);
+void wireless_recv(uint8_t*);
+
 
 #endif
